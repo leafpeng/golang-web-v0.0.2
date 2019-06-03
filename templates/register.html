@@ -1,0 +1,44 @@
+
+{{ template "head" }}
+
+<nav class="navbar navbar-dark bg-primary mb-3">
+  <a class="navbar-brand" href="#">Leaf Peng</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/login">Login</a>
+      <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">-_-</a>
+    </div>
+  </div>
+</nav>
+
+<!-- <nav class="navbar navbar-dark bg-primary mb-3">
+  <div class="container">
+      <a href="#" class="navbar-brand">Leaf Peng</a>
+  </div>
+      <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/login">Login</a>
+</nav> -->
+
+<div class="container">
+        <form action="/register" method="POST">
+                <div class="form-group">
+                  <label for="username">User Name</label>
+                  <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="UserName">
+                </div>
+                <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
+                      </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+</div>    
+
+{{ template "body" }}
+
