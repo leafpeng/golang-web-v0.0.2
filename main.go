@@ -63,7 +63,10 @@ func main() {
 	r.HandleFunc("/logout", logout).Methods("GET")
 	r.HandleFunc("/register", registerGet).Methods("GET")
 	r.HandleFunc("/register", registerPost).Methods("POST")
-	r.HandleFunc("/livechat", livechat).Methods("GET")
+	// r.HandleFunc("/livechat", livechat).Methods("GET")
+	r.HandleFunc("/livechat", func(w http.ResponseWriter, r *http.Request) {
+		livechat(hub, w, r)
+	}).Methods("GET")
 	r.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(hub, w, r)
 	})
@@ -212,7 +215,7 @@ func loginPost(w http.ResponseWriter, r *http.Request) {
 	}
 	db := dbConn()
 	// helper function db.Exec("USE leaf")
-	// either use dbUse(db) or SQL stmt use leaf.userinfo
+	// either use dbUse(db) or SQL stmt write leaf.userinfo
 	// dbUse(db)
 	defer db.Close()
 

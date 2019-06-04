@@ -93,7 +93,7 @@ func (h *Hub) run() {
 	}
 }
 
-func livechat(w http.ResponseWriter, r *http.Request) {
+func livechat(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	// cookie, err := r.Cookie("session")
 	// if err != nil {
@@ -101,7 +101,7 @@ func livechat(w http.ResponseWriter, r *http.Request) {
 	// }
 	// username := inMemorySessions[cookie.Value].UserName
 
-	tpl.ExecuteTemplate(w, "chat.html", nil)
+	tpl.ExecuteTemplate(w, "chat.html", len(hub.clients))
 }
 
 // serveWs handles websocket requests from the peer.

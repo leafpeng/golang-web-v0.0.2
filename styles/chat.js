@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    const load = function() {
+        if(!window.location.hash) {
+            window.location = window.location + '#-_-';
+            window.location.reload();
+        }
+    };
+    setTimeout(load, 500);
+     
+
+
     let conn;
     let msg = document.querySelector("#msg");
     let log = document.querySelector("#log");
@@ -44,4 +55,5 @@ document.addEventListener("DOMContentLoaded", () => {
         item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
         appendLog(item);
     }
+    
 })
