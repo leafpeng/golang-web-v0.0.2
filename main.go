@@ -74,8 +74,8 @@ func main() {
 	// r.HandleFunc("/styles.css", css).Methods("GET")
 	r.PathPrefix("/styles/").Handler(http.StripPrefix("/styles/", http.FileServer(http.Dir("./styles"))))
 	// r.PathPrefix("/styles.css").Handler(http.StripPrefix("/styles", http.FileServer(http.Dir("./styles"))))
-	log.Println("Server starting at port 8080.")
-	if err := http.ListenAndServe(":8080", r); err != nil {
+	log.Println("Server starting at port 80.")
+	if err := http.ListenAndServe(":80", r); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
