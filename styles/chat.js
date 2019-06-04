@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.reload();
         }
     };
-    setTimeout(load, 500);
+    setTimeout(load, 750);
      
 
 
