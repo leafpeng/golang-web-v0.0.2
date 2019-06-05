@@ -156,7 +156,7 @@ func getUserName(r *http.Request) []byte {
 // logger
 func logger() {
 
-	file, err := os.OpenFile("log/log.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
+	file, err := os.OpenFile("log.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal("OpenFile failed.")
 	}
