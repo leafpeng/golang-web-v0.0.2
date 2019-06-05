@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 
 	uuid "github.com/satori/go.uuid"
 
@@ -51,7 +52,7 @@ func init() {
 }
 
 func main() {
-
+	logger()
 	hub := newHub()
 	go hub.run()
 
@@ -152,6 +153,28 @@ func getUserName(r *http.Request) []byte {
 
 }
 
+// logger
+func logger() {
+
+	file, err := os.OpenFile("log/log.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
+	if err != nil {
+		log.Fatal("OpenFile failed.")
+	}
+	log.SetOutput(file)
+	log.Println("logger start:")
+
+}
+
+// helper help logger log username and message.
+func loggerHelper(w http.ResponseWriter, r *http.Request, message string) {
+	cookie, err := r.Cookie("session")
+	if err != nil {
+		http.Error(w, "NOT ALLOWED!", http.StatusForbidden)
+	}
+	username := inMemorySessions[cookie.Value].UserName
+	log.Printf("%v: %v ", username, message)
+}
+
 // serving file with io.Copy
 // func jpg(w http.ResponseWriter, r *http.Request) {
 // 	f, err := os.Open("leaf.jpg")
@@ -236,6 +259,7 @@ func loginPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	setCookieAndCreateSession(w, un, email)
+	log.Printf("%v: logged in.", un)
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 
@@ -247,6 +271,9 @@ func logout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	cookie, _ := r.Cookie("session")
+
+	loggerHelper(w, r, "logged out.")
+
 	delete(inMemorySessions, cookie.Value)
 	cookie.MaxAge = -1
 	http.SetCookie(w, cookie)
@@ -307,7 +334,7 @@ func registerPost(w http.ResponseWriter, r *http.Request) {
 		}
 		setCookieAndCreateSession(w, username, email)
 
-		log.Println("user created!")
+		log.Printf("%v: email: %v created", username, email)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 
 	} else {

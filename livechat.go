@@ -95,11 +95,7 @@ func (h *Hub) run() {
 
 func livechat(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
-	// cookie, err := r.Cookie("session")
-	// if err != nil {
-	// 	http.Error(w, "NOT ALLOWED!", http.StatusForbidden)
-	// }
-	// username := inMemorySessions[cookie.Value].UserName
+	loggerHelper(w, r, "try connect to livechat")
 
 	tpl.ExecuteTemplate(w, "chat.html", len(hub.clients))
 }
@@ -116,6 +112,9 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		conn: conn,
 		send: make(chan []byte, 256),
 	}
+
+	loggerHelper(w, r, "connected to livechat")
+
 	client.hub.register <- client
 	// Allow collection of memory referenced by the caller by doing all work in new goroutines.
 	go client.writePump()
