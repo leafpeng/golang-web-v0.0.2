@@ -58,6 +58,7 @@ func main() {
 
 	r := mux.NewRouter()
 	// r.Handle("/favicon.ico", http.NotFoundHandler())
+	r.PathPrefix("/styles/").Handler(http.StripPrefix("/styles/", http.FileServer(http.Dir("./styles"))))
 	r.HandleFunc("/", index).Methods("GET")
 	r.HandleFunc("/login", loginGet).Methods("GET")
 	r.HandleFunc("/login", loginPost).Methods("POST")
@@ -73,7 +74,6 @@ func main() {
 	})
 	// r.HandleFunc("/leaf.jpg", jpg).Methods("GET")
 	// r.HandleFunc("/styles.css", css).Methods("GET")
-	r.PathPrefix("/styles/").Handler(http.StripPrefix("/styles/", http.FileServer(http.Dir("./styles"))))
 	// r.PathPrefix("/styles.css").Handler(http.StripPrefix("/styles", http.FileServer(http.Dir("./styles"))))
 	log.Println("Server starting at port 80.")
 	if err := http.ListenAndServe(":80", r); err != nil {
@@ -252,7 +252,7 @@ func loginPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// compare hashandpassword
+	// compare hashedpassword
 	err = bcrypt.CompareHashAndPassword([]byte(pw), []byte(password))
 	if err != nil {
 		http.Error(w, "wrong password!", http.StatusForbidden)
